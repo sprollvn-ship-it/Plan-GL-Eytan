@@ -420,6 +420,30 @@
 
   .coach-note-label { font-family: 'Orbitron', monospace; font-size: 8px; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px; font-style: normal; }
 
+  .video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,0,0,0.15);
+    border: 1px solid rgba(255,0,0,0.3);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-right: 8px;
+    transition: all 0.2s;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 0.5px;
+  }
+  .video-link:hover {
+    background: rgba(255,0,0,0.25);
+    border-color: rgba(255,0,0,0.5);
+    transform: translateX(2px);
+  }
+
   .notes-area {
     margin-top: 12px;
     width: 100%;
@@ -535,14 +559,17 @@ const WEEKS_DATA = [
   {
     icon: "👆",
     quest: "SEMAINE 2",
-    title: "Picado + Malagueña / Pharaon",
-    focus: "On commence le picado — l'alternance index-majeur qui est la base de toute mélodie flamenco. En parallèle on écoute et on approche Malagueña ou Pharaon selon ce qui t'attire le plus. Le conseil clé : joue toujours plus lentement que tu ne le penses nécessaire.",
+    title: "Instauration du Picado + Malagueña",
+    focus: "Cette semaine on installe le picado — la technique de solo flamenco par excellence. Le picado c'est fait pour s'imposer, donc joue FORT, avec puissance, surtout pendant les entraînements. On travaille Malagueña et l'exercice spider pour explorer tout le manche en continu.",
     tasks: [
-      { text: "Alternance i-m sur corde 1 — aussi lentement que possible", time: "~10 min" },
-      { text: "Écoute Malagueña ET Pharaon — lequel t'inspire le plus ?", time: "~10 min" },
-      { text: "Premiers notes du morceau choisi — très lentement, sans se presser", time: "~15 min" },
+      { text: "Picado sur Malagueña — alternance index-majeur (ou majeur-index), jouer FORT", time: "~15 min" },
+      { text: "Exercice spider — exploration du manche en picado continu", time: "~10 min" },
+      { text: "Malagueña complète — intégrer le picado dans le morceau", time: "~15 min" },
     ],
-    coachNote: "La règle d'or : si tu fais une erreur, c'est que tu vas trop vite. Ralentis encore. Le cerveau intègre mieux dans la lenteur que dans la vitesse.",
+    videos: [
+      { title: "▶️ Exercice Spider (picado)", url: "https://www.youtube.com/watch?v=ofDtJh6DHMw" }
+    ],
+    coachNote: "Le picado est une technique de PUISSANCE. Ne joue pas timidement — impose-toi. Alterne index-majeur ou majeur-index selon ce qui te convient le mieux. L'exercice spider est simple mais challengeant : il te fait bosser le picado sur tout le manche.",
     active: true
   },
   { icon: "❓", quest: "SEMAINE 3",  title: "???", focus: "La suite s'adapte à ta progression.", tasks: [], coachNote: "", active: false },
@@ -655,6 +682,10 @@ function render() {
         </div>`;
     }).join('');
 
+    const videosHTML = w.videos ? w.videos.map(v => 
+      `<a href="${v.url}" target="_blank" class="video-link">${v.title}</a>`
+    ).join('') : '';
+
     const coachHTML = w.coachNote ? `
       <div class="coach-note">
         <div class="coach-note-label">💬 MESSAGE DE MELVIN</div>
@@ -685,6 +716,7 @@ function render() {
             <div class="focus-text">${w.focus}</div>
           </div>
           ${taskTotal > 0 ? `<div class="tasks-label">AU PROGRAMME</div><div class="task-list">${tasksHTML}</div>` : ''}
+          ${videosHTML ? `<div style="margin-top: 12px;">${videosHTML}</div>` : ''}
           ${coachHTML}
           <textarea class="notes-area" id="note-${i}" placeholder="Tes notes perso cette semaine..." onblur="saveNote(${i})">${noteVal}</textarea>
           ${!done
